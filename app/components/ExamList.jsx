@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSelectedExamList } from "../context/SelectedExamListContext";
 import AddButton from "./AddButton";
-import FullExamItem from "./FullExamItem";
+import FullExamItemImage from "./FullExamItemImage";
 /**!SECTION
  * 문제 이름 : EXAM_NAME
  * 난이도 : DIFFICULTY (d1:하/d2:중/d3:상/d4:최상)
@@ -13,22 +13,25 @@ import FullExamItem from "./FullExamItem";
 const ExamList = ({ list }) => {
   const [type, setType] = useState("obj"); // 객/주/서
   const [category, setCategory] = useState("exam"); // 문제/답/해설
-  console.log(type, category);
 
-  const { list: data } = useSelectedExamList();
-  console.log(data);
+  const { list: selectedList } = useSelectedExamList();
 
   // 타입별로 문제 리스트 받아옴
   const filteredList = (type) => {
-    let newList = [];
+    let newList = list.filter(
+      (listItem) =>
+        !selectedList.some(
+          (seletecItem) => seletecItem.examKey === listItem.examKey
+        )
+    );
+
     if (type === "sbj") {
-      newList = list.filter((it) => it.sbjOption !== "N");
+      newList = newList.filter((it) => it.sbjOption !== "N");
     } else if (type === "des") {
-      newList = list.filter((it) => it.desOption !== "N");
+      newList = newList.filter((it) => it.desOption !== "N");
     } else {
-      newList = list.filter((it) => it.objOption !== "N");
+      newList = newList.filter((it) => it.objOption !== "N");
     }
-    console.log(newList.length);
     return newList;
   };
 
@@ -99,7 +102,7 @@ const ExamList = ({ list }) => {
       <ul className="flex flex-col gap-10">
         {filteredList(type)?.map((it) => (
           <li key={it.examKey}>
-            <FullExamItem
+            <FullExamItemImage
               examKey={it.examKey}
               type={type}
               category={category}

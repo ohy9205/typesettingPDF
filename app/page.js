@@ -1,4 +1,5 @@
 import ExamList from "./components/ExamList";
+import TypesettingView from "./components/TypesettingView";
 import { SelectedExamListContextProvider } from "./context/SelectedExamListContext";
 
 export default async function Home() {
@@ -8,7 +9,10 @@ export default async function Home() {
   return (
     <main>
       <SelectedExamListContextProvider>
-        <ExamList list={list} />
+        <div className="w-full flex gap-10">
+          <ExamList list={list} />
+          <TypesettingView />
+        </div>
       </SelectedExamListContextProvider>
     </main>
   );
