@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSelectedExamList } from "../context/SelectedExamListContext";
 import AddButton from "./AddButton";
-import ExamItem from "./ExamItem";
+import FullExamItem from "./FullExamItem";
 /**!SECTION
  * 문제 이름 : EXAM_NAME
  * 난이도 : DIFFICULTY (d1:하/d2:중/d3:상/d4:최상)
@@ -13,6 +13,7 @@ import ExamItem from "./ExamItem";
 const ExamList = ({ list }) => {
   const [type, setType] = useState("obj"); // 객/주/서
   const [category, setCategory] = useState("exam"); // 문제/답/해설
+  console.log(type, category);
 
   const { list: data } = useSelectedExamList();
   console.log(data);
@@ -98,18 +99,11 @@ const ExamList = ({ list }) => {
       <ul className="flex flex-col gap-10">
         {filteredList(type)?.map((it) => (
           <li key={it.examKey}>
-            <ExamItem>
-              <ExamItem.ExamImage examKey={it.examKey} type={type} />
-              {category === "answer" && (
-                <ExamItem.AnswerImage examKey={it.examKey} type={type} />
-              )}
-              {category === "explain" && (
-                <>
-                  <ExamItem.AnswerImage examKey={it.examKey} type={type} />
-                  <ExamItem.ExplainImage examKey={it.examKey} type={type} />
-                </>
-              )}
-            </ExamItem>
+            <FullExamItem
+              examKey={it.examKey}
+              type={type}
+              category={category}
+            />
             <AddButton item={it} type={type} category={category} />
           </li>
         ))}
