@@ -1,9 +1,10 @@
 import ExamItem from "./ExamItem";
 
-const FullExamItem = ({ examKey, category, type }) => {
+const FullExamItemImage = ({ examKey, category, type }) => {
   return (
     <ExamItem>
       <ExamItem.ExamImage examKey={examKey} type={type} />
+      {type === "obj" && <ExamItem.ObjectiveImage examKey={examKey} />}
       {category === "answer" && (
         <ExamItem.AnswerImage examKey={examKey} type={type} />
       )}
@@ -17,4 +18,4 @@ const FullExamItem = ({ examKey, category, type }) => {
   );
 };
 
-export default FullExamItem;
+export default FullExamItemImage;

@@ -19,6 +19,17 @@ const ExamImage = ({ examKey, type }) => {
   );
 };
 
+const ObjectiveImage = ({ examKey }) => {
+  return (
+    <Image
+      src={getImageUrl(examKey, "objective", "obj")}
+      alt="문제"
+      width={"500"}
+      height={"500"}
+    />
+  );
+};
+
 const AnswerImage = ({ examKey, type }) => {
   return (
     <Image
@@ -63,3 +74,4 @@ export default ExamItem;
 ExamItem.ExamImage = ExamImage;
 ExamItem.AnswerImage = AnswerImage;
 ExamItem.ExplainImage = ExplainImage;
+ExamItem.ObjectiveImage = ObjectiveImage;
