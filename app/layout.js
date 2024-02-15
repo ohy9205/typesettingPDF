@@ -11,10 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <h1>pdf조판</h1>
-        {children}
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

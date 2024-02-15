@@ -1,11 +1,7 @@
-"use client";
-
 import Image from "next/image";
 
-//
-
 const ExamItem = ({ children }) => {
-  return <div>{children}</div>;
+  return <div className="flex flex-col gap-4">{children}</div>;
 };
 
 const ExamImage = ({ examKey, type }) => {
@@ -13,8 +9,8 @@ const ExamImage = ({ examKey, type }) => {
     <Image
       src={getImageUrl(examKey, "exam", type)}
       alt="문제"
-      width={"500"}
-      height={"500"}
+      width={"1500"}
+      height={"1000"}
     />
   );
 };
@@ -23,9 +19,9 @@ const ObjectiveImage = ({ examKey }) => {
   return (
     <Image
       src={getImageUrl(examKey, "objective", "obj")}
-      alt="문제"
-      width={"500"}
-      height={"500"}
+      alt="보기"
+      width={"1500"}
+      height={"1200"}
     />
   );
 };
@@ -35,8 +31,8 @@ const AnswerImage = ({ examKey, type }) => {
     <Image
       src={getImageUrl(examKey, "answer", type)}
       alt="정답"
-      width={"20"}
-      height={"20"}
+      width={"1500"}
+      height={"900"}
     />
   );
 };
@@ -46,8 +42,8 @@ const ExplainImage = ({ examKey, type }) => {
     <Image
       src={getImageUrl(examKey, "explain", type)}
       alt="해설"
-      width={"500"}
-      height={"500"}
+      width={"1500"}
+      height={"1500"}
     />
   );
 };

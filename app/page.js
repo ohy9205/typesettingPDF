@@ -9,7 +9,7 @@ export default async function Home() {
   return (
     <main>
       <SelectedExamListContextProvider>
-        <div className="w-full flex gap-10">
+        <div className="flex h-screen">
           <ExamList list={list} />
           <TypesettingView />
         </div>

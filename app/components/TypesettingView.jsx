@@ -1,33 +1,31 @@
 "use client";
 
 import { useSelectedExamList } from "../context/SelectedExamListContext";
-import FullExamItem from "./FullExamItemImage";
 import RemoveButton from "./RemoveButton";
+import TypesettingItem from "./TypesettingItem";
 
 const TypesettingView = () => {
   const { list } = useSelectedExamList();
 
   return (
-    <section>
-      <h1>뷰 영역</h1>
-      <div className="flex flex-col gap-10">
+    <section
+      className="flex flex-grow p-4"
+      style={{ width: "calc(100vh * 0.707)", height: "calc(100vh - 1rem)" }}>
+      <div className="w-1/2 flex flex-col gap-10">
+        왼쪽단
         {list?.map((it, idx) => {
           return (
-            <div key={it.examKey}>
-              <h2>문제번호 : {idx + 1}</h2>
-              <h3>제목 : {it.examName}</h3>
-              <h3>난이도 : {it.examLevel}</h3>
-              <h3>문제번호 : {it.examKey}</h3>
-              <FullExamItem
-                examKey={it.examKey}
-                type={it.type}
-                category={it.category}
-              />
+            <div
+              key={it.examKey}
+              className="flex flex-col gap-4 shadow-lg bg-gray-50">
+              <TypesettingItem item={it} idx={idx} />
               <RemoveButton examKey={it.examKey} />
             </div>
           );
         })}
       </div>
+      <div className="border mx-2"></div>
+      <div className="w-1/2">오른쪽단</div>
     </section>
   );
 };

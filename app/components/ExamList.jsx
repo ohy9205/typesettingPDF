@@ -36,68 +36,66 @@ const ExamList = ({ list }) => {
   };
 
   return (
-    <section>
+    <section className="w-1/5 overflow-auto">
       <div>
-        <div>
-          <label>
-            <input
-              type="radio"
-              name="type"
-              value="obj"
-              onChange={() => setType("obj")}
-              defaultChecked
-            />
-            객관식
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="type"
-              value="sbj"
-              onChange={() => setType("sbj")}
-            />
-            주관식
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="type"
-              value="des"
-              onChange={() => setType("des")}
-            />
-            서술형
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="radio"
-              name="category"
-              value="exam"
-              onChange={() => setCategory("exam")}
-              defaultChecked
-            />
-            문제
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="category"
-              value="answer"
-              onChange={() => setCategory("answer")}
-            />
-            정답
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="category"
-              value="explain"
-              onChange={() => setCategory("explain")}
-            />
-            정답+해설
-          </label>
-        </div>
+        <label>
+          <input
+            type="radio"
+            name="type"
+            value="obj"
+            onChange={() => setType("obj")}
+            defaultChecked
+          />
+          객관식
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="type"
+            value="sbj"
+            onChange={() => setType("sbj")}
+          />
+          주관식
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="type"
+            value="des"
+            onChange={() => setType("des")}
+          />
+          서술형
+        </label>
+      </div>
+      <div>
+        <label>
+          <input
+            type="radio"
+            name="category"
+            value="exam"
+            onChange={() => setCategory("exam")}
+            defaultChecked
+          />
+          문제
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="category"
+            value="answer"
+            onChange={() => setCategory("answer")}
+          />
+          정답
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="category"
+            value="explain"
+            onChange={() => setCategory("explain")}
+          />
+          정답+해설
+        </label>
       </div>
       <ul className="flex flex-col gap-10">
         {filteredList(type)?.map((it) => (
