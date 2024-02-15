@@ -110,7 +110,7 @@ const ExamList = ({ list }) => {
                 </>
               )}
             </ExamItem>
-            <AddButton item={it} />
+            <AddButton item={it} type={type} category={category} />
           </li>
         ))}
       </ul>

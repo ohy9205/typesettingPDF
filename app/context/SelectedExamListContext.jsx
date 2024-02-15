@@ -11,9 +11,9 @@ export const SelectedExamListContextProvider = ({ children }) => {
     <SelectedExamList.Provider
       value={{
         list,
-        addItem: (item) => {
-          console.log(item);
-          setList((prev) => [...prev, item]);
+        addItem: (item, type, category) => {
+          let newItem = { ...item, type, category };
+          setList((prev) => [...prev, newItem]);
         },
         removeItem: (examKey) => {
           const newList = list.filter((it) => it.examKey !== examKey);

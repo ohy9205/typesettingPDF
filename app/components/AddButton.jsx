@@ -2,14 +2,12 @@
 
 import { useSelectedExamList } from "../context/SelectedExamListContext";
 
-const AddButton = ({ item }) => {
+const AddButton = ({ item, type, category }) => {
   const { addItem } = useSelectedExamList();
 
-  const onClickHandler = (item) => {
-    addItem(item);
-  };
-
-  return <button onClick={() => onClickHandler(item)}>추가하기</button>;
+  return (
+    <button onClick={() => addItem(item, type, category)}>추가하기</button>
+  );
 };
 
 export default AddButton;
