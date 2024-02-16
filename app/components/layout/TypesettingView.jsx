@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSelectedExamList } from "../context/SelectedExamListContext";
-import TypesettingItem from "./TypesettingItem";
+import { useSelectedExamList } from "../../context/SelectedExamListContext";
+import TypesettingItem from "../TypesettingItem";
 
 const INNER_HEIGHT = 1122;
 const MARGIN_HEIGHT = 40;

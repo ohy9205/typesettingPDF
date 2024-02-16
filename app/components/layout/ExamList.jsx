@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useSelectedExamList } from "../context/SelectedExamListContext";
-import Button from "./Button";
-import ExamItem from "./ExamItem";
+import { useSelectedExamList } from "../../context/SelectedExamListContext";
+import Button from "../Button";
+import ExamItem from "../ExamItem";
 /**!SECTION
  * 문제 이름 : EXAM_NAME
  * 난이도 : DIFFICULTY (d1:하/d2:중/d3:상/d4:최상)

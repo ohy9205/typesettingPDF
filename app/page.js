@@ -1,5 +1,5 @@
-import ExamList from "./components/ExamList";
-import TypesettingView from "./components/TypesettingView";
+import ExamList from "./components/layout/ExamList";
+import TypesettingView from "./components/layout/TypesettingView";
 import { SelectedExamListContextProvider } from "./context/SelectedExamListContext";
 
 export default async function Home() {
