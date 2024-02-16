@@ -3,7 +3,9 @@ import TypesettingView from "./components/TypesettingView";
 import { SelectedExamListContextProvider } from "./context/SelectedExamListContext";
 
 export default async function Home() {
-  const data = await fetchExamList(); // 배열타입으로 전달받음
+  // 문제 리스트 가져옴
+  const data = await fetchExamList();
+  // 리스트 데이터 포맷 변경
   const list = changeDataFormat(data);
 
   return (
@@ -22,7 +24,6 @@ export default async function Home() {
   );
 }
 
-// 문제 리스트 가져옴
 const fetchExamList = async () => {
   const rs = await fetch("http://localhost:3000/api/examList");
   const { data } = await rs.json();
@@ -31,6 +32,10 @@ const fetchExamList = async () => {
 };
 
 const changeDataFormat = (data) => {
+  if (!data) {
+    return [];
+  }
+
   return data.map(
     ({
       DIFFICULTY,

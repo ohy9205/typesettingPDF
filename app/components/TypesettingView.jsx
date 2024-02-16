@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useSelectedExamList } from "../context/SelectedExamListContext";
-import Button from "./Button";
 import TypesettingItem from "./TypesettingItem";
 
 const INNER_HEIGHT = 1122;
@@ -28,38 +27,29 @@ const TypesettingView = () => {
           className="h-[1122px] flex justify-center items-center bg-slate-200">
           <div>
             <div className={`h-[1100px] flex`}>
-              {/* <div className={`h-[${INNER_HEIGHT}px] flex`}> */}
-              <div className="w-1/2 flex flex-col">
+              <article className="w-1/2 flex flex-col">
                 {page.left?.map((item, index) => (
-                  <div key={item.examKey} className="shadow-lg bg-gray-50 my-5">
-                    <TypesettingItem
-                      item={item}
-                      idx={countItemsBeforeIndex(pages, pageIndex) + index}
-                    />
-                    <Button action={() => removeItem(item.examKey)}>
-                      삭제하기
-                    </Button>
-                  </div>
+                  <TypesettingItem
+                    key={item.examKey}
+                    item={item}
+                    idx={countItemsBeforeIndex(pages, pageIndex) + index}
+                  />
                 ))}
-              </div>
+              </article>
               <div className="w-[2px] h-full bg-slate-300"></div>
-              <div className="w-1/2 flex flex-col">
+              <article className="w-1/2 flex flex-col">
                 {page.right?.map((item, index) => (
-                  <div key={item.examKey} className="shadow-lg bg-gray-50 my-5">
-                    <TypesettingItem
-                      item={item}
-                      idx={
-                        countItemsBeforeIndex(pages, pageIndex) +
-                        page.left.length +
-                        index
-                      }
-                    />
-                    <Button action={() => removeItem(item.examKey)}>
-                      삭제하기
-                    </Button>
-                  </div>
+                  <TypesettingItem
+                    key={item.examKey}
+                    item={item}
+                    idx={
+                      countItemsBeforeIndex(pages, pageIndex) +
+                      page.left.length +
+                      index
+                    }
+                  />
                 ))}
-              </div>
+              </article>
             </div>
             <h3 className="text-center">{pageIndex + 1}</h3>
           </div>

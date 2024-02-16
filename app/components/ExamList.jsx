@@ -10,15 +10,29 @@ import FullExamItemImage from "./FullExamItemImage";
  * 시험지 키 : EXAM_KEY
  */
 
+const TYPE_LIST = [
+  { name: "객관식", value: "obj" },
+  { name: "주관식", value: "sbj" },
+  { name: "서술형", value: "des" },
+];
+
+const CATEGORY_LIST = [
+  { name: "문제만", value: "exam" },
+  { name: "정답", value: "answer" },
+  { name: "정답+해설", value: "explain" },
+];
+
 const ExamList = ({ list }) => {
   const [type, setType] = useState("obj"); // 객/주/서
   const [category, setCategory] = useState("exam"); // 문제/답/해설
   const { list: selectedList, addItem } = useSelectedExamList();
   const itemsRef = useRef(new Array(list.length));
 
+  // '추가하기' 버튼 클릭 액션
   const clickAddButton = (item, type, category, idx) => {
+    // 클릭한 문제 이미지 크기를 구함
     let itemHeight = itemsRef.current[idx]?.offsetHeight || 0;
-    console.log(itemHeight);
+    // 선택한 문제 리스트에 문제 정보와 높이값 추가
     addItem({ ...item, height: itemHeight }, type, category);
   };
 
@@ -44,64 +58,32 @@ const ExamList = ({ list }) => {
   return (
     <section className="p-5 flex flex-col gap-5">
       <div>
-        <label>
-          <input
-            type="radio"
-            name="type"
-            value="obj"
-            onChange={() => setType("obj")}
-            defaultChecked
-          />
-          객관식
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="type"
-            value="sbj"
-            onChange={() => setType("sbj")}
-          />
-          주관식
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="type"
-            value="des"
-            onChange={() => setType("des")}
-          />
-          서술형
-        </label>
+        {TYPE_LIST.map(({ name, value }) => (
+          <label key={name}>
+            <input
+              type="radio"
+              name="type"
+              value={value}
+              onChange={() => setType(value)}
+              defaultChecked
+            />
+            {name}
+          </label>
+        ))}
       </div>
       <div>
-        <label>
-          <input
-            type="radio"
-            name="category"
-            value="exam"
-            onChange={() => setCategory("exam")}
-            defaultChecked
-          />
-          문제
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="category"
-            value="answer"
-            onChange={() => setCategory("answer")}
-          />
-          정답
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="category"
-            value="explain"
-            onChange={() => setCategory("explain")}
-          />
-          정답+해설
-        </label>
+        {CATEGORY_LIST.map(({ name, value }) => (
+          <label key={name}>
+            <input
+              type="radio"
+              name="category"
+              value={value}
+              onChange={() => setCategory(value)}
+              defaultChecked
+            />
+            {name}
+          </label>
+        ))}
       </div>
       <ul className="flex flex-col gap-10">
         {filteredList(type)?.map((it, idx) => (
