@@ -1,22 +1,17 @@
 import Button from "./Button";
-import FullExamItem from "./FullExamItemImage";
+import ExamItem from "./ExamItem";
 
-const TypesettingItem = ({ item, idx }) => {
+const TypesettingItem = ({ item, itemNumber, buttonAction }) => {
   return (
-    <div className="shadow-lg bg-gray-50 my-5">
-      <div className="h-[110px]">
-        <h2>문제번호 : {idx + 1}</h2>
-        <h3>제목 : {item.examName}</h3>
-        <h3>난이도 : {item.examLevel}</h3>
-        <h3>문제번호 : {item.examKey}</h3>
-      </div>
-      <FullExamItem
+    <ExamItem key={item.examKey}>
+      <ExamItem.ItemMeta item={item} itemNumber={itemNumber} />
+      <ExamItem.ItemImage
         examKey={item.examKey}
-        type={item.type}
         category={item.category}
+        type={item.type}
       />
-      <Button action={() => removeItem(item.examKey)}>삭제하기</Button>
-    </div>
+      <Button action={() => buttonAction()}>삭제하기</Button>
+    </ExamItem>
   );
 };
 

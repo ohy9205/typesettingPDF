@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSelectedExamList } from "../context/SelectedExamListContext";
-import Button from "./Button";
-import ExamItem from "./ExamItem";
+import TypesettingItem from "./TypesettingItem";
 
 const INNER_HEIGHT = 1122;
 const MARGIN_HEIGHT = 40;
@@ -30,45 +29,27 @@ const TypesettingView = () => {
             <div className={`h-[1100px] flex`}>
               <article className="w-1/2 flex flex-col gap-10">
                 {page.left?.map((item, index) => (
-                  <ExamItem key={item.examKey}>
-                    <ExamItem.ItemMeta
-                      item={item}
-                      itemNumber={
-                        countItemsBeforeIndex(pages, pageIndex) + index
-                      }
-                    />
-                    <ExamItem.ItemImage
-                      examKey={item.examKey}
-                      category={item.category}
-                      type={item.type}
-                    />
-                    <Button action={() => removeItem(item.examKey)}>
-                      삭제하기
-                    </Button>
-                  </ExamItem>
+                  <TypesettingItem
+                    key={item.examKey}
+                    item={item}
+                    itemNumber={countItemsBeforeIndex(pages, pageIndex) + index}
+                    buttonAction={() => removeItem(item.examKey)}
+                  />
                 ))}
               </article>
               <div className="w-[2px] h-full bg-slate-300"></div>
               <article className="w-1/2 flex flex-col gap-10">
                 {page.right?.map((item, index) => (
-                  <ExamItem key={item.examKey}>
-                    <ExamItem.ItemMeta
-                      item={item}
-                      itemNumber={
-                        countItemsBeforeIndex(pages, pageIndex) +
-                        page.left.length +
-                        index
-                      }
-                    />
-                    <ExamItem.ItemImage
-                      examKey={item.examKey}
-                      category={item.category}
-                      type={item.type}
-                    />
-                    <Button action={() => removeItem(item.examKey)}>
-                      삭제하기
-                    </Button>
-                  </ExamItem>
+                  <TypesettingItem
+                    key={item.examKey}
+                    item={item}
+                    itemNumber={
+                      countItemsBeforeIndex(pages, pageIndex) +
+                      page.left.length +
+                      index
+                    }
+                    buttonAction={() => removeItem(item.examKey)}
+                  />
                 ))}
               </article>
             </div>
