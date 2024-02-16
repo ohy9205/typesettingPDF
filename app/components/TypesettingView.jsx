@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useSelectedExamList } from "../context/SelectedExamListContext";
-import TypesettingItem from "./TypesettingItem";
+import Button from "./Button";
+import ExamItem from "./ExamItem";
 
 const INNER_HEIGHT = 1122;
-const MARGIN_HEIGHT = 20;
+const MARGIN_HEIGHT = 40;
 const META_HEIGHT = 110;
-const BUTTON_HEIGHT = 34;
+const BUTTON_HEIGHT = 32;
 
 const TypesettingView = () => {
   const { list, removeItem } = useSelectedExamList();
@@ -27,27 +28,47 @@ const TypesettingView = () => {
           className="h-[1122px] flex justify-center items-center bg-slate-200">
           <div>
             <div className={`h-[1100px] flex`}>
-              <article className="w-1/2 flex flex-col">
+              <article className="w-1/2 flex flex-col gap-10">
                 {page.left?.map((item, index) => (
-                  <TypesettingItem
-                    key={item.examKey}
-                    item={item}
-                    idx={countItemsBeforeIndex(pages, pageIndex) + index}
-                  />
+                  <ExamItem key={item.examKey}>
+                    <ExamItem.ItemMeta
+                      item={item}
+                      itemNumber={
+                        countItemsBeforeIndex(pages, pageIndex) + index
+                      }
+                    />
+                    <ExamItem.ItemImage
+                      examKey={item.examKey}
+                      category={item.category}
+                      type={item.type}
+                    />
+                    <Button action={() => removeItem(item.examKey)}>
+                      삭제하기
+                    </Button>
+                  </ExamItem>
                 ))}
               </article>
               <div className="w-[2px] h-full bg-slate-300"></div>
-              <article className="w-1/2 flex flex-col">
+              <article className="w-1/2 flex flex-col gap-10">
                 {page.right?.map((item, index) => (
-                  <TypesettingItem
-                    key={item.examKey}
-                    item={item}
-                    idx={
-                      countItemsBeforeIndex(pages, pageIndex) +
-                      page.left.length +
-                      index
-                    }
-                  />
+                  <ExamItem key={item.examKey}>
+                    <ExamItem.ItemMeta
+                      item={item}
+                      itemNumber={
+                        countItemsBeforeIndex(pages, pageIndex) +
+                        page.left.length +
+                        index
+                      }
+                    />
+                    <ExamItem.ItemImage
+                      examKey={item.examKey}
+                      category={item.category}
+                      type={item.type}
+                    />
+                    <Button action={() => removeItem(item.examKey)}>
+                      삭제하기
+                    </Button>
+                  </ExamItem>
                 ))}
               </article>
             </div>
@@ -78,11 +99,11 @@ const makePages = (list) => {
     if (
       // 왼쪽 단
       newPages[currentPageIndex].right.length === 0 &&
-      leftTotalHeight + itemHeight < INNER_HEIGHT
+      leftTotalHeight + itemHeight <= INNER_HEIGHT
     ) {
       newPages[currentPageIndex].left.push(item);
       leftTotalHeight += itemHeight;
-    } else if (rightTotalHeight + itemHeight < INNER_HEIGHT) {
+    } else if (rightTotalHeight + itemHeight <= INNER_HEIGHT) {
       // 오른쪽 단
       newPages[currentPageIndex].right.push(item);
       rightTotalHeight += itemHeight;

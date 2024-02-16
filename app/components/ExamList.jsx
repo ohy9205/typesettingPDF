@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { useSelectedExamList } from "../context/SelectedExamListContext";
 import Button from "./Button";
-import FullExamItemImage from "./FullExamItemImage";
+import ExamItem from "./ExamItem";
 /**!SECTION
  * 문제 이름 : EXAM_NAME
  * 난이도 : DIFFICULTY (d1:하/d2:중/d3:상/d4:최상)
@@ -65,7 +65,7 @@ const ExamList = ({ list }) => {
               name="type"
               value={value}
               onChange={() => setType(value)}
-              defaultChecked
+              defaultChecked={value === "obj"}
             />
             {name}
           </label>
@@ -79,7 +79,7 @@ const ExamList = ({ list }) => {
               name="category"
               value={value}
               onChange={() => setCategory(value)}
-              defaultChecked
+              defaultChecked={value === "exam"}
             />
             {name}
           </label>
@@ -88,14 +88,16 @@ const ExamList = ({ list }) => {
       <ul className="flex flex-col gap-10">
         {filteredList(type)?.map((it, idx) => (
           <li key={it.examKey} ref={(el) => (itemsRef.current[idx] = el)}>
-            <FullExamItemImage
-              examKey={it.examKey}
-              type={type}
-              category={category}
-            />
-            <Button action={() => clickAddButton(it, type, category, idx)}>
-              추가하기
-            </Button>
+            <ExamItem>
+              <ExamItem.ItemImage
+                examKey={it.examKey}
+                category={category}
+                type={type}
+              />
+              <Button action={() => clickAddButton(it, type, category, idx)}>
+                추가하기
+              </Button>
+            </ExamItem>
           </li>
         ))}
       </ul>
