@@ -31,8 +31,8 @@ const AnswerImage = ({ examKey, type }) => {
     <Image
       src={getImageUrl(examKey, "answer", type)}
       alt="정답"
-      width={"1500"}
-      height={"900"}
+      width={"100"}
+      height={"100"}
     />
   );
 };

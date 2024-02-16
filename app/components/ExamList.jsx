@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSelectedExamList } from "../context/SelectedExamListContext";
 import AddButton from "./AddButton";
 import FullExamItemImage from "./FullExamItemImage";
@@ -13,8 +13,16 @@ import FullExamItemImage from "./FullExamItemImage";
 const ExamList = ({ list }) => {
   const [type, setType] = useState("obj"); // 객/주/서
   const [category, setCategory] = useState("exam"); // 문제/답/해설
+  const { list: selectedList, addItem } = useSelectedExamList();
+  const divRef = useRef();
 
-  const { list: selectedList } = useSelectedExamList();
+  const clickAddButton = (item, type, category) => {
+    let itemHeight = 0;
+    if (divRef.current) {
+      itemHeight = divRef.current.offsetHeight;
+    }
+    addItem({ ...item, height: itemHeight }, type, category);
+  };
 
   // 타입별로 문제 리스트 받아옴
   const filteredList = (type) => {
@@ -36,7 +44,7 @@ const ExamList = ({ list }) => {
   };
 
   return (
-    <section className="w-1/5 overflow-auto">
+    <section className="p-5 flex flex-col gap-5">
       <div>
         <label>
           <input
@@ -99,13 +107,13 @@ const ExamList = ({ list }) => {
       </div>
       <ul className="flex flex-col gap-10">
         {filteredList(type)?.map((it) => (
-          <li key={it.examKey}>
+          <li key={it.examKey} ref={divRef}>
             <FullExamItemImage
               examKey={it.examKey}
               type={type}
               category={category}
             />
-            <AddButton item={it} type={type} category={category} />
+            <AddButton action={() => clickAddButton(it, type, category)} />
           </li>
         ))}
       </ul>
