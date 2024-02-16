@@ -26,13 +26,13 @@ const ObjectiveImage = ({ examKey }) => {
   );
 };
 
-const AnswerImage = ({ examKey, type }) => {
+const AnswerImage = ({ examKey, type, width, height }) => {
   return (
     <Image
       src={getImageUrl(examKey, "answer", type)}
       alt="정답"
-      width={"100"}
-      height={"100"}
+      width={width}
+      height={height}
     />
   );
 };
