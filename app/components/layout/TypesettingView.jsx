@@ -25,11 +25,11 @@ const TypesettingView = () => {
   return (
     <>
       <Button action={exportPDF}>pdf생성</Button>
-      <section className="pdfView flex flex-col gap-10">
+      <section className="flex flex-col gap-10">
         {pages.map((page, pageIndex) => (
           <div
             key={pageIndex}
-            className="h-[1122px] flex justify-center items-center bg-slate-200">
+            className="pdfView h-[1122px] flex justify-center items-center bg-slate-200">
             <div>
               <div className={`h-[1100px] flex`}>
                 <article className="w-1/2 flex flex-col gap-10">
@@ -70,26 +70,32 @@ const TypesettingView = () => {
 };
 
 export const exportPDF = async () => {
-  const input = document.querySelector(".pdfView"); // PDF로 변환하고자 하는 페이지의 element. 필요에 따라 변경 가능.
-  const canvas = await html2canvas(input);
-  const imgData = canvas.toDataURL("image/png");
+  const inputElements = document.querySelectorAll(".pdfView"); // PDF로 변환하고자 하는 페이지의 element. 필요에 따라 변경 가능.
 
   const pdf = new jsPDF({
-    // orientation: "portrait",
-    // unit: "px",
-    // format: [canvas.width, canvas.height],
-
     orientation: "portrait", // 또는 'landscape'
     unit: "mm",
     format: "a4",
   });
 
-  // 이미지를 A4 사이즈에 맞게 조정
-  const imgWidth = 210; // A4 너비(mm)
-  const imgHeight = (canvas.height * imgWidth) / canvas.width; // 원본 이미지 비율 유지
+  for (const [index, inputElement] of inputElements.entries()) {
+    const canvas = await html2canvas(inputElement, {
+      scale: 2, // 화질 향상을 위한 scale 값 조정
+    });
+    const imgData = canvas.toDataURL("image/png");
 
-  // pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
-  pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+    // 이미지를 A4 사이즈에 맞게 조정
+    const imgWidth = 210; // A4 너비(mm)
+    const imgHeight = (canvas.height * imgWidth) / canvas.width; // 원본 이미지 비율 유지
+
+    // 첫 페이지가 아니라면 새 페이지를 추가합니다.
+    if (index > 0) {
+      pdf.addPage();
+    }
+
+    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+  }
+
   pdf.save("download.pdf");
 };
 
