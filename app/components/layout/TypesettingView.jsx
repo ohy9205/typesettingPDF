@@ -1,7 +1,10 @@
 "use client";
 
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import { useEffect, useState } from "react";
 import { useSelectedExamList } from "../../context/SelectedExamListContext";
+import Button from "../Button";
 import TypesettingItem from "../TypesettingItem";
 
 const INNER_HEIGHT = 1122;
@@ -20,45 +23,74 @@ const TypesettingView = () => {
   }, [list]);
 
   return (
-    <section className="flex flex-col gap-10">
-      {pages.map((page, pageIndex) => (
-        <div
-          key={pageIndex}
-          className="h-[1122px] flex justify-center items-center bg-slate-200">
-          <div>
-            <div className={`h-[1100px] flex`}>
-              <article className="w-1/2 flex flex-col gap-10">
-                {page.left?.map((item, index) => (
-                  <TypesettingItem
-                    key={item.examKey}
-                    item={item}
-                    itemNumber={countItemsBeforeIndex(pages, pageIndex) + index}
-                    buttonAction={() => removeItem(item.examKey)}
-                  />
-                ))}
-              </article>
-              <div className="w-[2px] h-full bg-slate-300"></div>
-              <article className="w-1/2 flex flex-col gap-10">
-                {page.right?.map((item, index) => (
-                  <TypesettingItem
-                    key={item.examKey}
-                    item={item}
-                    itemNumber={
-                      countItemsBeforeIndex(pages, pageIndex) +
-                      page.left.length +
-                      index
-                    }
-                    buttonAction={() => removeItem(item.examKey)}
-                  />
-                ))}
-              </article>
+    <>
+      <Button action={exportPDF}>pdf생성</Button>
+      <section className="pdfView flex flex-col gap-10">
+        {pages.map((page, pageIndex) => (
+          <div
+            key={pageIndex}
+            className="h-[1122px] flex justify-center items-center bg-slate-200">
+            <div>
+              <div className={`h-[1100px] flex`}>
+                <article className="w-1/2 flex flex-col gap-10">
+                  {page.left?.map((item, index) => (
+                    <TypesettingItem
+                      key={item.examKey}
+                      item={item}
+                      itemNumber={
+                        countItemsBeforeIndex(pages, pageIndex) + index
+                      }
+                      buttonAction={() => removeItem(item.examKey)}
+                    />
+                  ))}
+                </article>
+                <div className="w-[2px] h-full bg-slate-300"></div>
+                <article className="w-1/2 flex flex-col gap-10">
+                  {page.right?.map((item, index) => (
+                    <TypesettingItem
+                      key={item.examKey}
+                      item={item}
+                      itemNumber={
+                        countItemsBeforeIndex(pages, pageIndex) +
+                        page.left.length +
+                        index
+                      }
+                      buttonAction={() => removeItem(item.examKey)}
+                    />
+                  ))}
+                </article>
+              </div>
+              <h3 className="text-center">{pageIndex + 1}</h3>
             </div>
-            <h3 className="text-center">{pageIndex + 1}</h3>
           </div>
-        </div>
-      ))}
-    </section>
+        ))}
+      </section>
+    </>
   );
+};
+
+export const exportPDF = async () => {
+  const input = document.querySelector(".pdfView"); // PDF로 변환하고자 하는 페이지의 element. 필요에 따라 변경 가능.
+  const canvas = await html2canvas(input);
+  const imgData = canvas.toDataURL("image/png");
+
+  const pdf = new jsPDF({
+    // orientation: "portrait",
+    // unit: "px",
+    // format: [canvas.width, canvas.height],
+
+    orientation: "portrait", // 또는 'landscape'
+    unit: "mm",
+    format: "a4",
+  });
+
+  // 이미지를 A4 사이즈에 맞게 조정
+  const imgWidth = 210; // A4 너비(mm)
+  const imgHeight = (canvas.height * imgWidth) / canvas.width; // 원본 이미지 비율 유지
+
+  // pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+  pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+  pdf.save("download.pdf");
 };
 
 const makePages = (list) => {
