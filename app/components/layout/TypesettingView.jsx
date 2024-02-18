@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSelectedExamList } from "../../context/SelectedExamListContext";
+import Button from "../Button";
 import TypesettingItem from "../TypesettingItem";
 
 const INNER_HEIGHT = 1122;
@@ -20,44 +21,49 @@ const TypesettingView = () => {
   }, [list]);
 
   return (
-    <section className="flex flex-col gap-10">
-      {pages.map((page, pageIndex) => (
-        <div
-          key={pageIndex}
-          className="h-[1122px] flex justify-center items-center bg-slate-200">
-          <div>
-            <div className={`h-[1100px] flex`}>
-              <article className="w-1/2 flex flex-col gap-10">
-                {page.left?.map((item, index) => (
-                  <TypesettingItem
-                    key={item.examKey}
-                    item={item}
-                    itemNumber={countItemsBeforeIndex(pages, pageIndex) + index}
-                    buttonAction={() => removeItem(item.examKey)}
-                  />
-                ))}
-              </article>
-              <div className="w-[2px] h-full bg-slate-300"></div>
-              <article className="w-1/2 flex flex-col gap-10">
-                {page.right?.map((item, index) => (
-                  <TypesettingItem
-                    key={item.examKey}
-                    item={item}
-                    itemNumber={
-                      countItemsBeforeIndex(pages, pageIndex) +
-                      page.left.length +
-                      index
-                    }
-                    buttonAction={() => removeItem(item.examKey)}
-                  />
-                ))}
-              </article>
+    <>
+      <Button action={handleDownloadPDF}>pdf생성</Button>
+      <section className="pdfContent flex flex-col gap-10">
+        {pages.map((page, pageIndex) => (
+          <div
+            key={pageIndex}
+            className="h-[1122px] flex justify-center items-center bg-slate-200">
+            <div>
+              <div className={`h-[1100px] flex`}>
+                <article className="w-1/2 flex flex-col gap-10">
+                  {page.left?.map((item, index) => (
+                    <TypesettingItem
+                      key={item.examKey}
+                      item={item}
+                      itemNumber={
+                        countItemsBeforeIndex(pages, pageIndex) + index
+                      }
+                      buttonAction={() => removeItem(item.examKey)}
+                    />
+                  ))}
+                </article>
+                <div className="w-[2px] h-full bg-slate-300"></div>
+                <article className="w-1/2 flex flex-col gap-10">
+                  {page.right?.map((item, index) => (
+                    <TypesettingItem
+                      key={item.examKey}
+                      item={item}
+                      itemNumber={
+                        countItemsBeforeIndex(pages, pageIndex) +
+                        page.left.length +
+                        index
+                      }
+                      buttonAction={() => removeItem(item.examKey)}
+                    />
+                  ))}
+                </article>
+              </div>
+              <h3 className="text-center">{pageIndex + 1}</h3>
             </div>
-            <h3 className="text-center">{pageIndex + 1}</h3>
           </div>
-        </div>
-      ))}
-    </section>
+        ))}
+      </section>
+    </>
   );
 };
 
@@ -98,6 +104,39 @@ const makePages = (list) => {
   });
   console.log(newPages);
   return newPages;
+};
+
+// pdf생성코드
+const handleDownloadPDF = async () => {
+  const content = document.querySelector(".pdfContent").innerHTML;
+  try {
+    // API 라우트로 PDF 생성 요청
+    const response = await fetch("http://localhost:3000/api/makePdf", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      // body: JSON.stringify({ content }),
+      body: JSON.stringify({ content: content }),
+    });
+    if (response.status === 200) {
+      // 응답으로 받은 PDF 파일을 Blob으로 변환
+      const blob = await response.blob();
+      // Blob URL 생성
+      const downloadUrl = window.URL.createObjectURL(blob);
+      // 링크 요소 생성 및 클릭 이벤트 발동으로 다운로드
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.setAttribute("download", "example.pdf"); // 다운로드 파일 이름 설정
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } else {
+      throw new Error("PDF 생성 실패");
+    }
+  } catch (error) {
+    console.error("PDF 다운로드 중 오류 발생:", error);
+  }
 };
 
 function countItemsBeforeIndex(arr, index) {
