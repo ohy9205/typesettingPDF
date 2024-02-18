@@ -10,9 +10,9 @@ export default async function Home() {
 
   return (
     <main>
-      <div className="flex gap-10">
+      <div className="w-[1200px] flex gap-10">
         <SelectedExamListContextProvider>
-          <div className="w-[450px] h-screen overflow-scroll">
+          <div className="w-[400px] h-screen overflow-scroll">
             <ExamList list={list} />
           </div>
           <div className="w-[794px] h-screen overflow-scroll">
