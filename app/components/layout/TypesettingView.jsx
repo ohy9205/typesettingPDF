@@ -62,7 +62,7 @@ const TypesettingView = () => {
 };
 
 const makePages = (list) => {
-  const newPages = [[]];
+  const newPages = [];
   let leftTotalHeight = 0;
   let rightTotalHeight = 0;
   let currentPageIndex = 0;
@@ -73,7 +73,7 @@ const makePages = (list) => {
       item.height + META_HEIGHT + BUTTON_HEIGHT + MARGIN_HEIGHT * 2;
 
     // 페이지 유무 체크
-    if (newPages[currentPageIndex].length === 0) {
+    if (!newPages[currentPageIndex]) {
       newPages[currentPageIndex] = { left: [], right: [] };
     }
 
@@ -96,6 +96,7 @@ const makePages = (list) => {
       rightTotalHeight = 0;
     }
   });
+  console.log(newPages);
   return newPages;
 };
 
