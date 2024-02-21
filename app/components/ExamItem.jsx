@@ -13,7 +13,7 @@ const ItemImage = ({ examKey, category, type }) => {
 const ItemMeta = ({ item, itemNumber }) => {
   return (
     <div className="h-[110px]">
-      <h2>문제번호 : {itemNumber + 1}</h2>
+      <h2>문제번호 : {itemNumber}</h2>
       <h3>제목 : {item.examName}</h3>
       <h3>난이도 : {item.examLevel}</h3>
       <h3>문제번호 : {item.examKey}</h3>

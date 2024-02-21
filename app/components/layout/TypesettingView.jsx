@@ -1,8 +1,10 @@
 "use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { useSelectedExamList } from "../../context/SelectedExamListContext";
 import TypesettingItem from "../TypesettingItem";
+import PdfButton from "./../PdfButton";
 
 const INNER_HEIGHT = 1122;
 const MARGIN_HEIGHT = 40;
@@ -21,6 +23,7 @@ const TypesettingView = () => {
 
   return (
     <section className="flex flex-col gap-10">
+      <PdfButton contentsPages={pages} />
       {pages.map((page, pageIndex) => (
         <div
           key={pageIndex}
@@ -32,7 +35,7 @@ const TypesettingView = () => {
                   <TypesettingItem
                     key={item.examKey}
                     item={item}
-                    itemNumber={countItemsBeforeIndex(pages, pageIndex) + index}
+                    itemNumber={item.indexNumber}
                     buttonAction={() => removeItem(item.examKey)}
                   />
                 ))}
@@ -43,11 +46,7 @@ const TypesettingView = () => {
                   <TypesettingItem
                     key={item.examKey}
                     item={item}
-                    itemNumber={
-                      countItemsBeforeIndex(pages, pageIndex) +
-                      page.left.length +
-                      index
-                    }
+                    itemNumber={item.indexNumber}
                     buttonAction={() => removeItem(item.examKey)}
                   />
                 ))}
@@ -68,7 +67,7 @@ const makePages = (list) => {
   let currentPageIndex = 0;
 
   // 선택한 문제가 변경될때마다 페이지 구성을 새로함
-  list.forEach((item) => {
+  list.forEach((item, index) => {
     const itemHeight =
       item.height + META_HEIGHT + BUTTON_HEIGHT + MARGIN_HEIGHT * 2;
 
@@ -82,16 +81,19 @@ const makePages = (list) => {
       newPages[currentPageIndex].right.length === 0 &&
       leftTotalHeight + itemHeight <= INNER_HEIGHT
     ) {
-      newPages[currentPageIndex].left.push(item);
+      newPages[currentPageIndex].left.push({ ...item, indexNumber: ++index });
       leftTotalHeight += itemHeight;
     } else if (rightTotalHeight + itemHeight <= INNER_HEIGHT) {
       // 오른쪽 단
-      newPages[currentPageIndex].right.push(item);
+      newPages[currentPageIndex].right.push({ ...item, indexNumber: ++index });
       rightTotalHeight += itemHeight;
     } else {
       // 다음 페이지 생성
       currentPageIndex++;
-      newPages[currentPageIndex] = { left: [item], right: [] };
+      newPages[currentPageIndex] = {
+        left: [{ ...item, indexNumber: ++index }],
+        right: [],
+      };
       leftTotalHeight = itemHeight;
       rightTotalHeight = 0;
     }
@@ -99,18 +101,5 @@ const makePages = (list) => {
   console.log(newPages);
   return newPages;
 };
-
-function countItemsBeforeIndex(arr, index) {
-  // 합산할 총 항목 수 초기화
-  let totalCount = 0;
-
-  // 주어진 인덱스 이전까지 반복하여 각 항목의 left와 right 배열의 길이를 더함
-  for (let i = 0; i < index; i++) {
-    totalCount += arr[i].left.length + arr[i].right.length;
-  }
-
-  // 계산된 총 항목 수 반환
-  return totalCount;
-}
 
 export default TypesettingView;
