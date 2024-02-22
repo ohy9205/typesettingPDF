@@ -8,7 +8,7 @@ const TypesettingItem = ({ item, itemNumber, buttonAction }) => {
       <ExamItem.ItemImage
         examKey={item.examKey}
         category={item.category}
-        type={item.type}
+        curType={item.curType}
       />
       <Button action={() => buttonAction()}>삭제하기</Button>
     </ExamItem>

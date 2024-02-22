@@ -92,7 +92,7 @@ const ExamList = ({ list }) => {
               <ExamItem.ItemImage
                 examKey={it.examKey}
                 category={category}
-                type={type}
+                curType={type}
               />
               <Button action={() => clickAddButton(it, type, category, idx)}>
                 추가하기

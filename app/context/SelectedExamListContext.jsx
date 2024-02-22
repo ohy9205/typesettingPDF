@@ -12,7 +12,7 @@ export const SelectedExamListContextProvider = ({ children }) => {
       value={{
         list,
         addItem: (item, type, category) => {
-          let newItem = { ...item, type, category };
+          let newItem = { ...item, curType: type, category };
           setList((prev) => [...prev, newItem]);
         },
         removeItem: (examKey) => {

@@ -1,16 +1,16 @@
 import Image from "next/image";
 
-const FullExamItemImage = ({ examKey, category, type }) => {
+const FullExamItemImage = ({ examKey, category, curType }) => {
   return (
     <div className="flex flex-col gap-4">
       <Image
-        src={getImageUrl(examKey, "exam", type)}
+        src={getImageUrl(examKey, "exam", curType)}
         alt="문제"
         width={"1500"}
         height={"1000"}
       />
 
-      {type === "obj" && (
+      {curType === "obj" && (
         <Image
           src={getImageUrl(examKey, "objective", "obj")}
           alt="보기"
@@ -20,22 +20,22 @@ const FullExamItemImage = ({ examKey, category, type }) => {
       )}
       {category === "answer" && (
         <Image
-          src={getImageUrl(examKey, "answer", type)}
+          src={getImageUrl(examKey, "answer", curType)}
           alt="정답"
-          width={type === "obj" ? "30" : "80"}
-          height={type === "obj" ? "30" : "80"}
+          width={curType === "obj" ? "30" : "80"}
+          height={curType === "obj" ? "30" : "80"}
         />
       )}
       {category === "explain" && (
         <>
           <Image
-            src={getImageUrl(examKey, "answer", type)}
+            src={getImageUrl(examKey, "answer", curType)}
             alt="정답"
-            width={type === "obj" ? "30" : "80"}
-            height={type === "obj" ? "30" : "80"}
+            width={curType === "obj" ? "30" : "80"}
+            height={curType === "obj" ? "30" : "80"}
           />
           <Image
-            src={getImageUrl(examKey, "explain", type)}
+            src={getImageUrl(examKey, "explain", curType)}
             alt="해설"
             width={"1500"}
             height={"1500"}

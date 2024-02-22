@@ -4,9 +4,13 @@ const ExamItem = ({ children }) => {
   return <div className="">{children}</div>;
 };
 
-const ItemImage = ({ examKey, category, type }) => {
+const ItemImage = ({ examKey, category, curType }) => {
   return (
-    <FullExamItemImage examKey={examKey} category={category} type={type} />
+    <FullExamItemImage
+      examKey={examKey}
+      category={category}
+      curType={curType}
+    />
   );
 };
 
