@@ -8,7 +8,7 @@ const PdfButton = ({ contentsPages }) => {
 
   // 이미지 들어가는것까진 확인함
   const onClickHandler = async () => {
-    const pdfContents = {
+    const docDefinition = {
       content: [
         {
           columns: [
@@ -17,9 +17,44 @@ const PdfButton = ({ contentsPages }) => {
           ],
         },
       ],
+      footer: function (currentPage, pageCount) {
+        return {
+          margin: 10,
+          columns: [
+            {
+              fontSize: 9,
+              text: [
+                {
+                  text:
+                    "--------------------------------------------------------------------------" +
+                    "\n",
+                  margin: [0, 20],
+                },
+                {
+                  text:
+                    "© xyz pvt., ltd. " +
+                    currentPage.toString() +
+                    " of " +
+                    pageCount,
+                },
+              ],
+              alignment: "center",
+            },
+          ],
+        };
+      },
+      pageSize: {
+        width: 794,
+        height: 1100,
+      },
+      defaultStyle: {
+        font: "NanumGothic",
+        fontSize: 16,
+      },
+      pageMargins: [0, 0, 0, 0],
     };
 
-    makePdf(pdfContents);
+    makePdf(docDefinition);
   };
 
   return (
@@ -48,28 +83,33 @@ const renderItem = async (pages, columns) => {
               `문제번호 : ${item.examKey}`,
               {
                 image: await converBlobToBase64(imageBlobList.exam),
-                width: 200,
+                width: 397,
+                margin: [0, 16, 0, 16],
               },
               item.curType === "obj"
                 ? {
                     image: await converBlobToBase64(imageBlobList.objective),
-                    width: 200,
+                    width: 397,
+                    margin: [0, 0, 0, 16],
                   }
                 : undefined,
               item.category === "answer"
                 ? {
                     image: await converBlobToBase64(imageBlobList.answer),
-                    width: 200,
+                    width: 397,
+                    margin: [0, 0, 0, 16],
                   }
                 : undefined,
               item.category === "explain"
                 ? ({
                     image: await converBlobToBase64(imageBlobList.answer),
-                    width: 200,
+                    width: 397,
+                    margin: [0, 0, 0, 16],
                   },
                   {
                     image: await converBlobToBase64(imageBlobList.explain),
-                    width: 200,
+                    width: 397,
+                    margin: [0, 0, 0, 16],
                   })
                 : undefined,
             ],
@@ -77,6 +117,7 @@ const renderItem = async (pages, columns) => {
               pageIndex !== pages.length - 1 &&
               itemIndex === page[columns].length - 1 &&
               "after",
+            margin: [0, 0, 0, 64],
           };
         })
       );

@@ -3,36 +3,48 @@ import Image from "next/image";
 const FullExamItemImage = ({ examKey, category, curType }) => {
   return (
     <div className="flex flex-col gap-4">
-      <Image
-        src={getImageUrl(examKey, "exam", curType)}
-        alt="문제"
-        width={"1500"}
-        height={"1000"}
-      />
+      <div>
+        <Image
+          src={getImageUrl(examKey, "exam", curType)}
+          alt="문제"
+          width={"1000"}
+          height={"600"}
+        />
+      </div>
 
       {curType === "obj" && (
-        <Image
-          src={getImageUrl(examKey, "objective", "obj")}
-          alt="보기"
-          width={"1500"}
-          height={"1200"}
-        />
+        <div>
+          <Image
+            src={getImageUrl(examKey, "objective", "obj")}
+            alt="보기"
+            width={"1000"}
+            height={"700"}
+          />
+        </div>
       )}
       {category === "answer" && (
-        <Image
-          src={getImageUrl(examKey, "answer", curType)}
-          alt="정답"
-          width={curType === "obj" ? "30" : "80"}
-          height={curType === "obj" ? "30" : "80"}
-        />
-      )}
-      {category === "explain" && (
-        <>
+        <div>
           <Image
             src={getImageUrl(examKey, "answer", curType)}
             alt="정답"
-            width={curType === "obj" ? "30" : "80"}
-            height={curType === "obj" ? "30" : "80"}
+            width={60}
+            height={60}
+            // width={curType === "obj" ? "30" : "80"}
+            // height={curType === "obj" ? "30" : "80"}
+            className="w-auto h-4 object-contain"
+          />
+        </div>
+      )}
+      {category === "explain" && (
+        <div>
+          <Image
+            src={getImageUrl(examKey, "answer", curType)}
+            alt="정답"
+            width={80}
+            height={80}
+            // width={curType === "obj" ? "30" : "80"}
+            // height={curType === "obj" ? "30" : "80"}
+            className="w-auto h-4 object-contain"
           />
           <Image
             src={getImageUrl(examKey, "explain", curType)}
@@ -40,7 +52,7 @@ const FullExamItemImage = ({ examKey, category, curType }) => {
             width={"1500"}
             height={"1500"}
           />
-        </>
+        </div>
       )}
     </div>
   );

@@ -26,7 +26,7 @@ const ExamList = ({ list }) => {
   const [type, setType] = useState("obj"); // 객/주/서
   const [category, setCategory] = useState("exam"); // 문제/답/해설
   const { list: selectedList, addItem } = useSelectedExamList();
-  const itemsRef = useRef(new Array(list.length));
+  const itemsRef = useRef(new Array(0));
 
   // '추가하기' 버튼 클릭 액션
   const clickAddButton = (item, type, category, idx) => {
@@ -38,12 +38,13 @@ const ExamList = ({ list }) => {
 
   // 타입별로 문제 리스트 받아옴
   const filteredList = (type) => {
-    let newList = list.filter(
-      (listItem) =>
-        !selectedList.some(
-          (seletecItem) => seletecItem.examKey === listItem.examKey
-        )
-    );
+    // let newList = list.filter(
+    //   (listItem) =>
+    //     !selectedList.some(
+    //       (seletecItem) => seletecItem.examKey === listItem.examKey
+    //     )
+    // );
+    let newList = [...list];
 
     if (type === "sbj") {
       newList = newList.filter((it) => it.sbjOption !== "N");

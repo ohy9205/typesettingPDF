@@ -10,7 +10,7 @@ export default async function Home() {
 
   return (
     <main>
-      <div className="w-[1200px] flex gap-10">
+      <div className="min-w-[1250px] flex gap-10">
         <SelectedExamListContextProvider>
           <div className="w-[400px] h-screen overflow-scroll">
             <ExamList list={list} />
@@ -25,7 +25,9 @@ export default async function Home() {
 }
 
 const fetchExamList = async () => {
-  const rs = await fetch("http://localhost:3000/api/examList");
+  const rs = await fetch("http://localhost:3000/api/examList", {
+    cache: "force-cache",
+  });
   const { data } = await rs.json();
 
   return data;

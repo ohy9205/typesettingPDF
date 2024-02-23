@@ -30,7 +30,7 @@ const TypesettingView = () => {
           className="h-[1122px] flex justify-center items-center bg-slate-200">
           <div>
             <div className={`h-[1100px] flex`}>
-              <article className="w-1/2 flex flex-col gap-10">
+              <article className="w-1/2 flex flex-col gap-16">
                 {page.left?.map((item) => (
                   <TypesettingItem
                     key={item.examKey}
@@ -41,7 +41,7 @@ const TypesettingView = () => {
                 ))}
               </article>
               <div className="w-[2px] h-full bg-slate-300"></div>
-              <article className="w-1/2 flex flex-col gap-10">
+              <article className="w-1/2 flex flex-col gap-16">
                 {page.right?.map((item) => (
                   <TypesettingItem
                     key={item.examKey}
